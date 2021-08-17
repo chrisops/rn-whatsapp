@@ -2,7 +2,7 @@ import moment from 'moment'
 import React from 'react'
 import { View, Text, Image, TouchableWithoutFeedback } from 'react-native'
 import { ChatRoom } from '../../types'
-import styles from './style'
+import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 
 export type ChatListItemProps = {

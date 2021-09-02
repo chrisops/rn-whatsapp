@@ -25,19 +25,19 @@ export default function MainTabNavigator() {
   return (
     <MainTab.Navigator
       initialRouteName="Chats"
-      tabBarOptions={{ 
-        activeTintColor: Colors[colorScheme].background, 
-        style: {
-          backgroundColor: Colors[colorScheme].tint
+      screenOptions={{
+        tabBarActiveTintColor: "#fff",
+        tabBarShowIcon: true,
+        tabBarLabelStyle: {
+          fontWeight: "bold"
         },
-        indicatorStyle: {
-          backgroundColor: Colors[colorScheme].background,
+        tabBarIndicatorStyle: {
+          backgroundColor: "#fff",
           height: 4
         },
-        labelStyle: {
-          fontWeight: 'bold'
-        },
-        showIcon: true
+        tabBarStyle: {
+          backgroundColor: "#0C6157"
+        }
       }}>
       <MainTab.Screen
         name="Camera"

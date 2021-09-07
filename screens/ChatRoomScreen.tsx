@@ -14,8 +14,9 @@ const ChatRoomScreen = () => {
   return (
     <ImageBackground style={{width: '100%', height: '100%'}} source={BG}>
       <FlatList
-        data={chatRoomData.messages}
+        data={chatRoomData.messages.reverse()}
         renderItem={({ item }) => <ChatMessage message={item} />}
+        inverted
       />
       <InputBox />
     </ImageBackground>

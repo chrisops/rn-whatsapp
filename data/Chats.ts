@@ -65,6 +65,6 @@ export default {
 			id: 'u1',
 			name: 'Vadim',
 		},
-	}]
+	}].reverse()
 }
 

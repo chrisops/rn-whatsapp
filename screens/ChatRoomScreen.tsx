@@ -7,6 +7,8 @@ import ChatMessage from '../components/ChatMessage'
 import BG from '../assets/images/BG.png'
 import InputBox from '../components/InputBox'
 
+const messages = chatRoomData.messages.reverse()
+
 const ChatRoomScreen = () => {
 
   const route = useRoute()
@@ -14,11 +16,11 @@ const ChatRoomScreen = () => {
   return (
     <ImageBackground style={{width: '100%', height: '100%'}} source={BG}>
       <FlatList
-        data={chatRoomData.messages.reverse()}
+        data={messages}
         renderItem={({ item }) => <ChatMessage message={item} />}
         inverted
       />
-      <InputBox />
+      <InputBox chatRoomID={route.params.id}/>
     </ImageBackground>
   )
 }

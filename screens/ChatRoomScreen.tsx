@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, Text, ImageBackground, ActivityIndicatorBase, ActivityIndicator, View } from 'react-native'
+import { FlatList, ImageBackground, ActivityIndicator, View, KeyboardAvoidingView, Platform } from 'react-native'
 
 import { useRoute } from '@react-navigation/native'
 import chatRoomData from '../data/Chats'
@@ -74,6 +74,7 @@ const ChatRoomScreen = () => {
 
 
   return (
+
     <ImageBackground style={{width: '100%', height: '100%'}} source={BG}>
       { (loading) ? <View style={{width: '100%', height: '100%', flexDirection: 'column', justifyContent: 'center'}}>
           <ActivityIndicator size="large" color="#0C6157"/>

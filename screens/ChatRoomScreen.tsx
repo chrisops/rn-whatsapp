@@ -14,6 +14,8 @@ import {
 } from 'aws-amplify'
 
 import { messagesByChatRoom } from '../src/graphql/queries'
+import { onCreateMessage } from '../src/graphql/subscriptions'
+
 
 const ChatRoomScreen = () => {
 
@@ -23,22 +25,23 @@ const ChatRoomScreen = () => {
 
   const route = useRoute()
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const messagesData = await API.graphql(
-          graphqlOperation(messagesByChatRoom, {
-            chatRoomID: route.params.id,
-            sortDirection: "DESC",
-          })
-        )
-        setMessages(messagesData.data.messagesByChatRoom.items)
-      } catch (e) {
-        console.log(e)
-      } finally {
-        setLoading(false)
-      }
+  const fetchMessages = async () => {
+    try {
+      const messagesData = await API.graphql(
+        graphqlOperation(messagesByChatRoom, {
+          chatRoomID: route.params.id,
+          sortDirection: "DESC",
+        })
+      )
+      setMessages(messagesData.data.messagesByChatRoom.items)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setLoading(false)
     }
+  }
+
+  useEffect(() => {
     fetchMessages()
   }, [])
 
@@ -49,6 +52,26 @@ const ChatRoomScreen = () => {
     }
     getMyId()
   }, [])
+
+  useEffect(() => {
+    const subscription = API.graphql(graphqlOperation(onCreateMessage)).subscribe({
+      next: (data) => {
+        const newMessage = data.value.data.onCreateMessage
+
+        if (newMessage.chatRoomID !== route.params.id) {
+          console.log("message is in another room")
+          return
+        }
+
+        fetchMessages()
+
+        // setMessages([newMessage, ...messages])
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [])
+
+
 
   return (
     <ImageBackground style={{width: '100%', height: '100%'}} source={BG}>

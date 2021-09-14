@@ -17,7 +17,6 @@ export default function ContactsScreen() {
    const fetchUsers = async () => {
      try {
       const usersData = await API.graphql(graphqlOperation(listUsers))
-      console.log(usersData)
       setUsers(usersData.data.listUsers.items)
      } catch (e) {
       console.log(e)

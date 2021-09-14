@@ -8,7 +8,7 @@ import {
   graphqlOperation,
 } from 'aws-amplify'
 
-import { createMessage } from '../../src/graphql/mutations'
+import { createMessage, updateChatRoom } from '../../src/graphql/mutations'
 
 const InputBox = (props) => {
 
@@ -27,15 +27,32 @@ const InputBox = (props) => {
   const onMicrophonePress = () => {
     console.warn('Microphone press')
   }
-  const onSendPress = async () => {
-    try {
 
-      await API.graphql(graphqlOperation(createMessage, {input: {
-        content: message,
+  const updateChatRoomLastMessage = async (messageId: String) => {
+    try {
+      await API.graphql(graphqlOperation(updateChatRoom, {input: {
+        id: chatRoomID,
+        lastMessageID: messageId
+      }}))
+    } catch(e) {
+      console.log(e)
+    }
+  } 
+
+  const onSendPress = async () => {
+
+    try {
+      if (message === "") {return}
+      let localMsg = message
+      setMessage("")
+      const newMessageData = await API.graphql(graphqlOperation(createMessage, {input: {
+        content: localMsg,
         userID: myUserId,
         chatRoomID
       }}))
-      setMessage("")
+      
+
+      await updateChatRoomLastMessage(newMessageData.data.createMessage.id)
 
     } catch (e) {
       console.log(e)
